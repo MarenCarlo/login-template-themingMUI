@@ -70,7 +70,7 @@ export default function Login() {
                         variant="contained"
                         sx={{ mt: 3, mb: 2, pt: 1, pb: 1, boxShadow: 5 }}
                     >
-                        Sign In
+                        Ingresar
                     </Button>
                 </Box>
             </Box>
