@@ -20,7 +20,7 @@ function Copyright(props: any) {
     );
 }
 
-export default function Login() {
+const Login = () => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -52,6 +52,7 @@ export default function Login() {
                         id="user"
                         label="Usuario"
                         name="user"
+                        className='shadow-inputs'
                         autoFocus
                     />
                     <TextField
@@ -78,3 +79,5 @@ export default function Login() {
         </Container>
     );
 }
+
+export default Login;

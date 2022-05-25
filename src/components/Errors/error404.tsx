@@ -5,7 +5,7 @@ import { Link, Outlet } from 'react-router-dom';
 import { Button, Container } from '@mui/material';
 
 
-export default function Error404() {
+const Error404 = () => {
     return (
         <Box sx={{
             marginTop: '20vh',
@@ -36,3 +36,5 @@ export default function Error404() {
         </Box>
     );
 }
+
+export default Error404;

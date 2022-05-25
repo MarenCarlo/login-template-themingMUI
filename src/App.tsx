@@ -1,4 +1,5 @@
 import Login from './components/Auth/login';
+import Home from './components/Home/home';
 import Error404 from './components/Errors/error404';
 import {
   Routes,
@@ -79,6 +80,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/Home" element={<Home />} />
         <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
         <Route path="/resource_not_found" element={<Error404 />} />
       </Routes>
