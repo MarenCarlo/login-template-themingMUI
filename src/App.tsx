@@ -77,14 +77,14 @@ const theme = createTheme({
 });
 
 function App() {
-  const [datos, setDatos] = useState({
+  const [user, setUser] = useState({
     user: '',
     password: ''
   });
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path="/" element={<Login datos={datos} setDatos={setDatos} />} />
+        <Route path="/" element={<Login datos={user} setDatos={setUser} />} />
         <Route path="/Home" element={<Home />} />
         <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
         <Route path="/resource_not_found" element={<Error404 />} />

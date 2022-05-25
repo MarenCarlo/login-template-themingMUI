@@ -23,10 +23,10 @@ function Copyright(props: any) {
  * Función de Login usando useState()
  * ERROR AQUI EN LA LINEA 26, AVERIGUAR COMO PASAR UNA FUNCION COMO PARAMETRO EN TYPESCRIPT
  */
-const Login = (datos: any, setDatos: any) => {
+const Login = (user: any, setUser: any) => {
     const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
-        setDatos({
-            ...datos!,
+        setUser({
+            ...user!,
             [event.target.name]: event.target.value
         });
     }
