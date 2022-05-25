@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -19,64 +19,78 @@ function Copyright(props: any) {
         </Typography>
     );
 }
-
-const Login = () => {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+/**
+ * Función de Login usando useState()
+ * ERROR AQUI EN LA LINEA 26, AVERIGUAR COMO PASAR UNA FUNCION COMO PARAMETRO EN TYPESCRIPT
+ */
+const Login = (datos: any, setDatos: any) => {
+    const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
+        setDatos({
+            ...datos!,
+            [event.target.name]: event.target.value
+        });
+    }
+    const enviarDatos = (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            user: data.get('user'),
-            password: data.get('password'),
-        });
-    };
+        if (data) {
+            console.log({
+                user: data.get('user'),
+                password: data.get('password'),
+            });
+        }
+    }
 
     return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Box
-                sx={{
-                    marginTop: '20vh',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
-                <Typography component="h1" variant="h5" sx={{ color: '#464E47' }}>
-                    Administración
-                </Typography>
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        id="user"
-                        label="Usuario"
-                        name="user"
-                        className='shadow-inputs'
-                        autoFocus
-                    />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="password"
-                        label="Contraseña"
-                        type="password"
-                        id="password"
-                        autoComplete="current-password"
-                    />
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2, pt: 1, pb: 1, boxShadow: 5 }}
-                    >
-                        Ingresar
-                    </Button>
+        <React.StrictMode>
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <Box
+                    sx={{
+                        marginTop: '20vh',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Typography component="h1" variant="h5" sx={{ color: '#464E47' }}>
+                        Administración
+                    </Typography>
+                    <Box component="form" onSubmit={enviarDatos} noValidate sx={{ mt: 1 }}>
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="user"
+                            label="Usuario"
+                            name="user"
+                            onChange={handleInputChange}
+                            autoFocus
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Contraseña"
+                            type="password"
+                            id="password"
+                            onChange={handleInputChange}
+                            autoComplete="current-password"
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2, pt: 1, pb: 1, boxShadow: 5 }}
+                        >
+                            Ingresar
+                        </Button>
+                    </Box>
                 </Box>
-            </Box>
-            <Copyright sx={{ mt: 8, mb: 4 }} />
-        </Container>
+                <Copyright sx={{ mt: 8, mb: 4 }} />
+            </Container>
+        </React.StrictMode>
     );
 }
 

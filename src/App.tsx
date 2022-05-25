@@ -7,6 +7,7 @@ import {
   Navigate
 } from "react-router-dom";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useState } from 'react';
 /**
  * Paleta de Colores
  * https://coolors.co/f1fffa-ccfccb-96e6b3-03b1bb-258db0-464e47
@@ -76,10 +77,14 @@ const theme = createTheme({
 });
 
 function App() {
+  const [datos, setDatos] = useState({
+    user: '',
+    password: ''
+  });
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Login datos={datos} setDatos={setDatos} />} />
         <Route path="/Home" element={<Home />} />
         <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
         <Route path="/resource_not_found" element={<Error404 />} />
