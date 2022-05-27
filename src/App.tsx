@@ -75,16 +75,29 @@ const theme = createTheme({
     },
   },
 });
-
+/**
+ * Importante el uso de types para validar el tipo de dato o funcion
+ * que se maneja!!
+ */
+export type UserProps = {
+  user: User;
+  setUser: (user: User) => void;
+};
+export type User = {
+  user: string;
+  password: string;
+};
 function App() {
-  const [user, setUser] = useState({
+
+  const [user, setUser] = useState<User>({
     user: '',
     password: ''
   });
+
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path="/" element={<Login datos={user} setDatos={setUser} />} />
+        <Route path="/" element={<Login user={user} setUser={setUser} />} />
         <Route path="/Home" element={<Home />} />
         <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
         <Route path="/resource_not_found" element={<Error404 />} />

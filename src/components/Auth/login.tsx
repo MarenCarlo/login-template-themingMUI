@@ -6,6 +6,8 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+//import Types 
+import { UserProps } from '../../App'
 
 function Copyright(props: any) {
     return (
@@ -23,7 +25,9 @@ function Copyright(props: any) {
  * Función de Login usando useState()
  * ERROR AQUI EN LA LINEA 26, AVERIGUAR COMO PASAR UNA FUNCION COMO PARAMETRO EN TYPESCRIPT
  */
-const Login = (user: any, setUser: any) => {
+
+const Login = ({ user, setUser }: UserProps) => {
+
     const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
         setUser({
             ...user!,
