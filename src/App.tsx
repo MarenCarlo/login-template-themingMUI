@@ -83,7 +83,7 @@ export type UserProps = {
   user: User;
   setUser: (user: User) => void;
 };
-export type User = {
+type User = {
   user: string;
   password: string;
 };
