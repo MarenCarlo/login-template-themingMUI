@@ -7,8 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 //import Types 
-import { UserProps } from '../interfaces/User';
-import { LoginErrorProps } from '../interfaces/Login';
+import { Props } from '../interfaces/LoginProps'
 
 function Copyright(props: any) {
     return (
@@ -27,7 +26,7 @@ function Copyright(props: any) {
  * ERROR AQUI EN LA LINEA 26, AVERIGUAR COMO PASAR UNA FUNCION COMO PARAMETRO EN TYPESCRIPT
  */
 
-const Login = ({ user, setUser }: UserProps, { loginErrors, setLoginErrors }: LoginErrorProps) => {
+const Login = ({ user, setUser, loginErrors, setLoginErrors }: Props) => {
 
     const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
         setUser({
