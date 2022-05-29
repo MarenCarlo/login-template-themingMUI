@@ -30,7 +30,7 @@ const Login = ({ user, setUser, loginErrors, setLoginErrors }: Props) => {
 
     const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
         setUser({
-            ...user!,
+            ...user,
             [event.target.name]: event.target.value
         });
     }
