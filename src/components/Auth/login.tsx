@@ -7,7 +7,8 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 //import Types 
-import { UserProps } from '../../App'
+import { UserProps } from '../interfaces/User';
+import { LoginErrorProps } from '../interfaces/Login';
 
 function Copyright(props: any) {
     return (
@@ -26,7 +27,7 @@ function Copyright(props: any) {
  * ERROR AQUI EN LA LINEA 26, AVERIGUAR COMO PASAR UNA FUNCION COMO PARAMETRO EN TYPESCRIPT
  */
 
-const Login = ({ user, setUser }: UserProps) => {
+const Login = ({ user, setUser }: UserProps, { loginErrors, setLoginErrors }: LoginErrorProps) => {
 
     const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
         setUser({
@@ -41,7 +42,12 @@ const Login = ({ user, setUser }: UserProps) => {
             console.log({
                 user: data.get('user'),
                 password: data.get('password'),
+                loginErrors
             });
+        } else {
+            setLoginErrors({
+                message: 'Las Credenciales no coinciden...'
+            })
         }
     }
 
