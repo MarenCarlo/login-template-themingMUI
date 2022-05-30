@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -8,6 +7,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 //import Types 
 import { Props } from '../interfaces/LoginProps'
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 function Copyright(props: any) {
     return (
@@ -43,6 +45,34 @@ const Login = ({ user, setUser, loginErrors, setLoginErrors }: Props) => {
                 password: data.get('password'),
                 loginErrors
             });
+
+            const userName = data.get('user');
+
+           function async auth(userName){
+                const res:any = await fetch(' https://jsonplaceholder.typicode.com/users?username='+ userName,{
+                method: 'GET',
+                headers: {
+                'Content-Type': 'application/json',
+             }
+                const resUser:any = await res.json();
+                if(resUser.data){}
+                setLoginErrors({
+                    message: 'Logueado Correctamente...'
+                })
+
+                });
+}
+
+            
+            useEffect(() => {
+            
+
+                    
+                       }, []);
+                       
+
+
+
         } else {
             setLoginErrors({
                 message: 'Las Credenciales no coinciden...'
