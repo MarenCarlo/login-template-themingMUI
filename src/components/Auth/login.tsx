@@ -8,8 +8,6 @@ import Container from '@mui/material/Container';
 //import Types 
 import { Props } from '../interfaces/LoginProps'
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from 'axios';
 
 function Copyright(props: any) {
     return (
@@ -36,49 +34,35 @@ const Login = ({ user, setUser, loginErrors, setLoginErrors }: Props) => {
             [event.target.name]: event.target.value
         });
     }
-    const enviarDatos = (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
+    const enviarDatos = async (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        if (data) {
-            console.log({
-                user: data.get('user'),
-                password: data.get('password'),
-                loginErrors
-            });
-
-            const userName = data.get('user');
-
-           function async auth(userName){
-                const res:any = await fetch(' https://jsonplaceholder.typicode.com/users?username='+ userName,{
-                method: 'GET',
-                headers: {
+        const userName: any = data.get('user');
+        const res: any = await fetch('https://jsonplaceholder.typicode.com/users?username=' + userName, {
+            method: 'GET',
+            headers: {
                 'Content-Type': 'application/json',
-             }
-                const resUser:any = await res.json();
-                if(resUser.data){}
-                setLoginErrors({
-                    message: 'Logueado Correctamente...'
-                })
-
-                });
-}
-
-            
-            useEffect(() => {
-            
-
-                    
-                       }, []);
-                       
-
-
-
-        } else {
+            }
+        });
+        const resUser: any = await res.json();
+        console.log({
+            user: data.get('user'),
+            password: data.get('password'),
+            loginErrors
+        });
+        if (resUser) {
             setLoginErrors({
-                message: 'Las Credenciales no coinciden...'
-            })
+                message: 'Logueado Correctamente...'
+            });
+            console.log(
+                resUser,
+                loginErrors
+            );
         }
     }
+    useEffect(() => {
+        enviarDatos();
+    }, []);
 
     return (
         <React.StrictMode>

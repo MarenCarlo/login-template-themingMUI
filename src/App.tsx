@@ -22,7 +22,7 @@ function App() {
     password: ''
   });
   const [loginErrors, setLoginErrors] = useState<LoginErrors>({
-    message: 'loggeado correctamente!!'
+    message: 'sin Loggearse!'
   });
   const [isLogged, setLogged] = useState<boolean>(true);
   const [isAdmin, setAdmin] = useState<boolean>(false);
