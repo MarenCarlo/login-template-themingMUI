@@ -5,9 +5,11 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import React from 'react';
 //import Types 
 import { Props } from '../interfaces/LoginProps'
-import React, { useEffect, useState } from 'react';
+//import Shareds
+import { enviarDatos } from '../../shared/enviarDatos';
 
 function Copyright(props: any) {
     return (
@@ -25,7 +27,6 @@ function Copyright(props: any) {
  * Función de Login usando useState()
  * ERROR AQUI EN LA LINEA 26, AVERIGUAR COMO PASAR UNA FUNCION COMO PARAMETRO EN TYPESCRIPT
  */
-
 const Login = ({ user, setUser, loginErrors, setLoginErrors }: Props) => {
 
     const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
@@ -34,35 +35,6 @@ const Login = ({ user, setUser, loginErrors, setLoginErrors }: Props) => {
             [event.target.name]: event.target.value
         });
     }
-    const enviarDatos = async (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        const userName: any = data.get('user');
-        const res: any = await fetch('https://jsonplaceholder.typicode.com/users?username=' + userName, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        });
-        const resUser: any = await res.json();
-        console.log({
-            user: data.get('user'),
-            password: data.get('password'),
-            loginErrors
-        });
-        if (resUser) {
-            setLoginErrors({
-                message: 'Logueado Correctamente...'
-            });
-            console.log(
-                resUser,
-                loginErrors
-            );
-        }
-    }
-    useEffect(() => {
-        enviarDatos();
-    }, []);
 
     return (
         <React.StrictMode>
@@ -79,7 +51,7 @@ const Login = ({ user, setUser, loginErrors, setLoginErrors }: Props) => {
                     <Typography component="h1" variant="h5" sx={{ color: '#464E47' }}>
                         Administración
                     </Typography>
-                    <Box component="form" onSubmit={enviarDatos} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={(event: React.FormEvent<HTMLFormElement>) => enviarDatos(event, loginErrors, setLoginErrors)} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
@@ -113,7 +85,7 @@ const Login = ({ user, setUser, loginErrors, setLoginErrors }: Props) => {
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Container>
-        </React.StrictMode>
+        </React.StrictMode >
     );
 }
 
