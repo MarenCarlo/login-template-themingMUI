@@ -6,10 +6,12 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import React from 'react';
+import { useEffect } from "react";
 //import Types 
 import { Props } from '../interfaces/LoginProps'
 //import Shareds
-import { enviarDatos } from '../../shared/enviarDatos';
+import { settingData } from '../../shared/enviarDatos';
+import { callApi } from '../../shared/enviarDatos'
 
 function Copyright(props: any) {
     return (
@@ -35,6 +37,11 @@ const Login = ({ user, setUser, loginErrors, setLoginErrors }: Props) => {
             [event.target.name]: event.target.value
         });
     }
+    useEffect(() => {
+        callApi(user ,loginErrors, setLoginErrors);
+        console.log(user.user);
+    }, []);
+
 
     return (
         <React.StrictMode>
@@ -51,7 +58,7 @@ const Login = ({ user, setUser, loginErrors, setLoginErrors }: Props) => {
                     <Typography component="h1" variant="h5" sx={{ color: '#464E47' }}>
                         Administración
                     </Typography>
-                    <Box component="form" onSubmit={(event: React.FormEvent<HTMLFormElement>) => enviarDatos(event, loginErrors, setLoginErrors)} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={(event: React.FormEvent<HTMLFormElement>) => settingData(event, loginErrors, setLoginErrors)} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required

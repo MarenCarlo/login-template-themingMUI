@@ -1,7 +1,16 @@
-export const enviarDatos = async (event: React.FormEvent<HTMLFormElement>, loginErrors: any, setLoginErrors: any) => {
+var data: any;
+export const settingData = async (event: React.FormEvent<HTMLFormElement>, loginErrors: any, setLoginErrors: any) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const userName: any = data.get('user');
+    data = new FormData(event.currentTarget);
+    console.log({
+        user: data.get('user'),
+        password: data.get('password'),
+        loginErrors
+    });
+}
+
+export const callApi = async (user:any, loginErrors: any, setLoginErrors: any) => {
+    const userName: any = user.user;
     const res: any = await fetch('https://jsonplaceholder.typicode.com/users?username=' + userName, {
         method: 'GET',
         headers: {
@@ -9,11 +18,6 @@ export const enviarDatos = async (event: React.FormEvent<HTMLFormElement>, login
         }
     });
     const resUser: any = await res.json();
-    console.log({
-        user: data.get('user'),
-        password: data.get('password'),
-        loginErrors
-    });
     if (resUser) {
         setLoginErrors({
             message: 'Logueado Correctamente...'
@@ -28,3 +32,4 @@ export const enviarDatos = async (event: React.FormEvent<HTMLFormElement>, login
          */
     }
 }
+
