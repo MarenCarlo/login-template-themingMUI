@@ -9,6 +9,7 @@ export const callApi = async (user: any, setUser: any, userData: any, setUserDat
      * de name="user".
      */
     const userName: any = user.user;
+    const userPass: any = '"'+ user.password  +'"';
 
     /**
      * Llamada a nuestra Api, concatenando la variable que contiene nuestro Username al final
@@ -28,8 +29,10 @@ export const callApi = async (user: any, setUser: any, userData: any, setUserDat
      * no esta vacia (Que no encontro ningun Usuarios)
      */
     if (resUser.length > 0) {
+        console.log(userPass +'  '+ JSON.stringify(resUser[0].email))
+        if(userPass  === JSON.stringify(resUser[0].email)){
 
-        /**
+            /**
          * SetUserData nos sirve para almacenar toda la data que recibimos
          * del usuario que quiere ingresar al sistema.
          */
@@ -68,6 +71,10 @@ export const callApi = async (user: any, setUser: any, userData: any, setUserDat
             password: ''
         })
 
+        }
+        setLoginErrors({
+            message: 'La contraseña es Incorrecta...'
+        });
         /**
          * Si la peticion esta vacia seteara el estado de LoginErrors para
          * dar a entender que no se encontro ese usuario en la Base De Datos.
