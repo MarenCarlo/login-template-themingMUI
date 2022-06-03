@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -6,39 +5,20 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import React from 'react';
+//import Types 
+import { LoginProps, User } from '../interfaces/LoginProps'
 
-function Copyright(props: any) {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center" {...props}>
-            {'Copyright © '}
-            <Link color="inherit" href="https://traeguate.gt/">
-                Traeguate
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-/**
- * Función de Login usando useState()
- * ERROR AQUI EN LA LINEA 26, AVERIGUAR COMO PASAR UNA FUNCION COMO PARAMETRO EN TYPESCRIPT
- */
-const Login = (user: any, setUser: any) => {
-    const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
-        setUser({
-            ...user!,
-            [event.target.name]: event.target.value
-        });
-    }
-    const enviarDatos = (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
+const Login = ({ user, setUser, userData, setUserData, loginErrors, setLoginErrors }: LoginProps) => {
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        if (data) {
-            console.log({
-                user: data.get('user'),
-                password: data.get('password'),
-            });
+        let user: User = {
+            user: String(data.get('user')),
+            password: String(data.get('password')),
         }
+        setUser(user);
     }
 
     return (
@@ -56,7 +36,7 @@ const Login = (user: any, setUser: any) => {
                     <Typography component="h1" variant="h5" sx={{ color: '#464E47' }}>
                         Administración
                     </Typography>
-                    <Box component="form" onSubmit={enviarDatos} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
@@ -64,7 +44,6 @@ const Login = (user: any, setUser: any) => {
                             id="user"
                             label="Usuario"
                             name="user"
-                            onChange={handleInputChange}
                             autoFocus
                         />
                         <TextField
@@ -75,7 +54,6 @@ const Login = (user: any, setUser: any) => {
                             label="Contraseña"
                             type="password"
                             id="password"
-                            onChange={handleInputChange}
                             autoComplete="current-password"
                         />
                         <Button
@@ -87,10 +65,20 @@ const Login = (user: any, setUser: any) => {
                             Ingresar
                         </Button>
                     </Box>
+                    <Typography component="p" sx={{ mt: 2, color: '#E84135', textAlign: 'center' }}>
+                        {loginErrors.message}
+                    </Typography>
                 </Box>
-                <Copyright sx={{ mt: 8, mb: 4 }} />
+                <Typography variant="body2" color="text.secondary" align="center" sx={{ mt: 8, mb: 4 }}>
+                    {'Copyright © '}
+                    <Link color="inherit" href="https://traeguate.gt/">
+                        Traeguate
+                    </Link>{' '}
+                    {new Date().getFullYear()}
+                    {'.'}
+                </Typography>
             </Container>
-        </React.StrictMode>
+        </React.StrictMode >
     );
 }
 
