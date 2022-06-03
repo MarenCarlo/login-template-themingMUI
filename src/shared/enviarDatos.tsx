@@ -1,16 +1,20 @@
-var data: any;
-export const settingData = async (event: React.FormEvent<HTMLFormElement>, loginErrors: any, setLoginErrors: any) => {
-    event.preventDefault();
-    data = new FormData(event.currentTarget);
-    console.log({
-        user: data.get('user'),
-        password: data.get('password'),
-        loginErrors
-    });
-}
+/**
+ * Funcion de llamada a la Api "callApi", esta esta exportada, para que pueda ser
+ * utilizada desde nuestro componente Login().
+ */
+export const callApi = async (user: any, setUser: any, userData: any, setUserData: any, loginErrors: any, setLoginErrors: any) => {
 
-export const callApi = async (user:any, loginErrors: any, setLoginErrors: any) => {
+    /**
+     * variable para recibir el state del username ingresado en el input
+     * de name="user".
+     */
     const userName: any = user.user;
+
+    /**
+     * Llamada a nuestra Api, concatenando la variable que contiene nuestro Username al final
+     * para así obtener solo los datos de este mismo, y posteriormente almacenar la respuesta del servidor
+     * en una variable.
+     */
     const res: any = await fetch('https://jsonplaceholder.typicode.com/users?username=' + userName, {
         method: 'GET',
         headers: {
@@ -18,18 +22,60 @@ export const callApi = async (user:any, loginErrors: any, setLoginErrors: any) =
         }
     });
     const resUser: any = await res.json();
-    if (resUser) {
+
+    /**
+     * Condicional que valida si el resultado de la llamada a la API
+     * no esta vacia (Que no encontro ningun Usuarios)
+     */
+    if (resUser.length > 0) {
+
+        /**
+         * SetUserData nos sirve para almacenar toda la data que recibimos
+         * del usuario que quiere ingresar al sistema.
+         */
+        setUserData({
+            id: resUser[0].id,
+            name: resUser[0].name,
+            username: resUser[0].username,
+            email: resUser[0].email,
+            address: {
+                street: resUser[0].address.street,
+                suite: resUser[0].address.suite,
+                city: resUser[0].address.city,
+                zipcode: resUser[0].address.zipcode,
+                geo: {
+                    lat: resUser[0].address.geo.lat,
+                    lng: resUser[0].address.geo.lng,
+                }
+            },
+            phone: resUser[0].phone,
+            website: resUser[0].website,
+            company: {
+                name: resUser[0].company.name,
+                catchPhrase: resUser[0].company.catchPhrase,
+                bs: resUser[0].company.bs,
+            }
+        })
+
+        /**
+         * Vaciado de States para ahorro de Memoria.
+         */
         setLoginErrors({
             message: 'Logueado Correctamente...'
         });
-        console.log(
-            resUser,
-            loginErrors
-        );
+        setUser({
+            user: '',
+            password: ''
+        })
+
         /**
-         * usar enviar datos como otra funcion para usar en useEffect y crear 
-         * otra para setear los datos de user desde onSubmit.
+         * Si la peticion esta vacia seteara el estado de LoginErrors para
+         * dar a entender que no se encontro ese usuario en la Base De Datos.
          */
+    } else {
+        setLoginErrors({
+            message: 'No existe ningun Usuario con este nombre de usuario...'
+        });
     }
 }
 
