@@ -2,7 +2,8 @@
  * Funcion de llamada a la Api "callApi", esta esta exportada, para que pueda ser
  * utilizada desde nuestro componente Login().
  */
-export const callApi = async (user: any, setUser: any, userData: any, setUserData: any, loginErrors: any, setLoginErrors: any) => {
+export const callApi = async (user: any, setUser: any, userData: any, setUserData: any, loginErrors: any, setLoginErrors: any,
+                                isLogged:any, setLogged:any, isAdmin:any, setAdmin:any) => {
 
     /**
      * variable para recibir el state del username ingresado en el input
@@ -64,12 +65,23 @@ export const callApi = async (user: any, setUser: any, userData: any, setUserDat
                 }
             })
 
-            /**
+            const userIsAdmin: string = resUser[0].company.name; 
+            if(userIsAdmin === 'Romaguera-Crona'){
+                setAdmin(true);
+                setLogged(true);
+                setLoginErrors({
+                    message: 'Logueado Correctamente...'
+                });
+            }else{
+                setLoginErrors({
+                    message: 'Este usuario no es Administrador...'
+                });
+            }
+
+            /**Romaguera-Crona
              * Vaciado de State para ahorro de Memoria.
              */
-            setLoginErrors({
-                message: 'Logueado Correctamente...'
-            });
+            
         } else {
             setLoginErrors({
                 message: 'La contraseña es Incorrecta...'

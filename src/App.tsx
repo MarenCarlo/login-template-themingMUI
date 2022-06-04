@@ -75,7 +75,7 @@ function App() {
 
   useEffect(() => {
     if ((user.user !== '' && user.user !== undefined) || (user.password !== '' && user.password !== undefined)) {
-      callApi(user, setUser, userData, setUserData, loginErrors, setLoginErrors);
+      callApi(user, setUser, userData, setUserData, loginErrors, setLoginErrors, isLogged, setLogged, isAdmin, setAdmin);
     }
   }, [user, loginErrors, userData]);
 
