@@ -22,7 +22,7 @@ import { callApi } from './shared/enviarDatos';
 
 function App() {
   const [token, setToken] = useState<Token>({
-    token: ''
+    token: 'xDad12323kweoqwfkqw555kfk431xD'
   })
   /**
    * State user es para el estado de los inputs del login
