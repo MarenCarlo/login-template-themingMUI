@@ -12,7 +12,7 @@ import Home from './components/Home/Home';
 import Error404 from './components/Errors/Error404';
 // Interfaces Imports
 import { LoginErrors, User } from './components/interfaces/LoginProps';
-import { UserData } from './components/interfaces/HomeProps';
+import { UserData, Token } from './components/interfaces/HomeProps';
 
 // Styles Imports
 import { ThemeProvider } from '@mui/material/styles';
@@ -21,6 +21,9 @@ import { theme } from './theme'
 import { callApi } from './shared/enviarDatos';
 
 function App() {
+  const [token, setToken] = useState<Token>({
+    token: ''
+  })
   /**
    * State user es para el estado de los inputs del login
    * username y password
@@ -90,21 +93,30 @@ function App() {
         setUserData(userDataM);
       }
       if (userData.id > 0 && userData.username !== '') {
-        return (
-          <ThemeProvider theme={theme}>
-            <>
-              <Routes>
-                <Route path="/" element={<Navigate to="/Home" replace />} />
-                <Route path="/Home" element={<Home
-                  userData={userData}
-                  setUserData={setUserData}
-                />} />
-                <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
-                <Route path="/resource_not_found" element={<Error404 />} />
-              </Routes>
-            </>
-          </ThemeProvider>
-        );
+        if (token !== null || token !== '') {
+          return (
+            <ThemeProvider theme={theme}>
+              <>
+                <Routes>
+                  <Route path="/" element={<Navigate to="/Home" replace />} />
+                  <Route path="/Home" element={<Home
+                    userData={userData}
+                    setUserData={setUserData}
+                    token={token}
+                    setToken={setToken}
+                  />} />
+                  <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
+                  <Route path="/resource_not_found" element={<Error404 />} />
+                </Routes>
+              </>
+            </ThemeProvider>
+          );
+        } else {
+          /**
+           * Acá ira función de cierre de sesión automatico si el token es igual a null
+           * o no coincide su Secret Key con la de la API
+           */
+        }
       }
     }
   }

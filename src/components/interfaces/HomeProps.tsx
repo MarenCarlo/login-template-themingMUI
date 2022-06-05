@@ -3,6 +3,8 @@ import { Dispatch, SetStateAction } from 'react';
 export interface HomeProps {
     userData: UserData,
     setUserData: Dispatch<SetStateAction<UserData>>
+    token: Token
+    setToken: Dispatch<SetStateAction<Token>>
 };
 export interface UserData {
     id: number,
@@ -27,3 +29,6 @@ export interface UserData {
         bs: string,
     }
 };
+export interface Token {
+    token: string
+}
