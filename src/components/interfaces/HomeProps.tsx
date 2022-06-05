@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 export interface HomeProps {
     userData: UserData,
     setUserData: Dispatch<SetStateAction<UserData>>
-    token: Token
+    token: Token,
     setToken: Dispatch<SetStateAction<Token>>
 };
 export interface UserData {

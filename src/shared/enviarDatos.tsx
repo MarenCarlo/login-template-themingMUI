@@ -38,6 +38,10 @@ export const callApi = async (user: any, setUser: any, userData: any, setUserDat
         if (userPass === userApiPass) {
 
             const userIsAdmin: string = resUser[0].company.name;
+            /**
+             * Romaguera-Crona es para validar para mientras si el usuario es de tipo
+             * Administrador
+             */
             if (userIsAdmin === 'Romaguera-Crona') {
                 setAdmin(true);
                 setLogged(true);
