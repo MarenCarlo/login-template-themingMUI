@@ -65,19 +65,21 @@ function App() {
    * State isLogged es el estado que se utiliza para validar si se muestra el login
    * o nuestras rutas protegidas
    */
-  const [isLogged, setLogged] = useState<boolean>(false);
+  const loggedM = JSON.parse(localStorage.getItem('logged')!);
+  const [isLogged, setLogged] = useState<boolean>(loggedM);
   /**
    * State isAdmin es el estado que se utiliza para validar si el usuario tiene el rol de
    * Administrador para validar si este puede ingresar al sistema
    */
-  const [isAdmin, setAdmin] = useState<boolean>(false);
+  const adminM = JSON.parse(localStorage.getItem('admin')!);
+  const [isAdmin, setAdmin] = useState<boolean>(adminM);
 
 
   useEffect(() => {
     if ((user.user !== '' && user.user !== undefined) || (user.password !== '' && user.password !== undefined)) {
       callApi(user, setUser, userData, setUserData, loginErrors, setLoginErrors, isLogged, setLogged, isAdmin, setAdmin);
     }
-  }, [user, loginErrors, userData]);
+  }, [user, loginErrors, userData, isLogged, isAdmin]);
 
   if (isLogged === true) {
     if (isAdmin === true) {

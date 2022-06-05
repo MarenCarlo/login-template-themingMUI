@@ -3,7 +3,7 @@
  * utilizada desde nuestro componente Login().
  */
 export const callApi = async (user: any, setUser: any, userData: any, setUserData: any, loginErrors: any, setLoginErrors: any,
-                                isLogged:any, setLogged:any, isAdmin:any, setAdmin:any) => {
+    isLogged: boolean, setLogged: any, isAdmin: boolean, setAdmin: any) => {
 
     /**
      * variable para recibir el state del username ingresado en el input
@@ -37,51 +37,49 @@ export const callApi = async (user: any, setUser: any, userData: any, setUserDat
 
         if (userPass === userApiPass) {
 
-            /**
-             * SetUserData nos sirve para almacenar toda la data que recibimos
-             * del usuario que quiere ingresar al sistema.
-             */
-            setUserData({
-                id: resUser[0].id,
-                name: resUser[0].name,
-                username: resUser[0].username,
-                email: resUser[0].email,
-                address: {
-                    street: resUser[0].address.street,
-                    suite: resUser[0].address.suite,
-                    city: resUser[0].address.city,
-                    zipcode: resUser[0].address.zipcode,
-                    geo: {
-                        lat: resUser[0].address.geo.lat,
-                        lng: resUser[0].address.geo.lng,
-                    }
-                },
-                phone: resUser[0].phone,
-                website: resUser[0].website,
-                company: {
-                    name: resUser[0].company.name,
-                    catchPhrase: resUser[0].company.catchPhrase,
-                    bs: resUser[0].company.bs,
-                }
-            })
-
-            const userIsAdmin: string = resUser[0].company.name; 
-            if(userIsAdmin === 'Romaguera-Crona'){
+            const userIsAdmin: string = resUser[0].company.name;
+            if (userIsAdmin === 'Romaguera-Crona') {
                 setAdmin(true);
                 setLogged(true);
+                localStorage.setItem('admin', JSON.stringify(true));
+                localStorage.setItem('logged', JSON.stringify(true));
+
+                /**
+                 * SetUserData nos sirve para almacenar toda la data que recibimos
+                 * del usuario que quiere ingresar al sistema.
+                 */
+                setUserData({
+                    id: resUser[0].id,
+                    name: resUser[0].name,
+                    username: resUser[0].username,
+                    email: resUser[0].email,
+                    address: {
+                        street: resUser[0].address.street,
+                        suite: resUser[0].address.suite,
+                        city: resUser[0].address.city,
+                        zipcode: resUser[0].address.zipcode,
+                        geo: {
+                            lat: resUser[0].address.geo.lat,
+                            lng: resUser[0].address.geo.lng,
+                        }
+                    },
+                    phone: resUser[0].phone,
+                    website: resUser[0].website,
+                    company: {
+                        name: resUser[0].company.name,
+                        catchPhrase: resUser[0].company.catchPhrase,
+                        bs: resUser[0].company.bs,
+                    }
+                })
+
                 setLoginErrors({
-                    message: 'Logueado Correctamente...'
+                    message: ''
                 });
-            }else{
+            } else {
                 setLoginErrors({
                     message: 'Este usuario no es Administrador...'
                 });
             }
-
-            /**Romaguera-Crona
-             * Vaciado de State para ahorro de Memoria.
-             */
-            
         } else {
             setLoginErrors({
                 message: 'La contraseña es Incorrecta...'
