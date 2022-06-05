@@ -89,21 +89,23 @@ function App() {
         const userDataM = JSON.parse(localStorage.getItem('userData')!);
         setUserData(userDataM);
       }
-      return (
-        <ThemeProvider theme={theme}>
-          <>
-            <Routes>
-              <Route path="/" element={<Navigate to="/Home" replace />} />
-              <Route path="/Home" element={<Home
-                userData={userData}
-                setUserData={setUserData}
-              />} />
-              <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
-              <Route path="/resource_not_found" element={<Error404 />} />
-            </Routes>
-          </>
-        </ThemeProvider>
-      );
+      if (userData.id > 0 && userData.username !== '') {
+        return (
+          <ThemeProvider theme={theme}>
+            <>
+              <Routes>
+                <Route path="/" element={<Navigate to="/Home" replace />} />
+                <Route path="/Home" element={<Home
+                  userData={userData}
+                  setUserData={setUserData}
+                />} />
+                <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
+                <Route path="/resource_not_found" element={<Error404 />} />
+              </Routes>
+            </>
+          </ThemeProvider>
+        );
+      }
     }
   }
   return (
