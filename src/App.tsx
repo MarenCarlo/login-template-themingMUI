@@ -11,7 +11,9 @@ import Login from './components/Auth/Login';
 import Home from './components/Home/Home';
 import Error404 from './components/Errors/Error404';
 // Interfaces Imports
-import { LoginErrors, User, UserData } from './components/interfaces/LoginProps';
+import { LoginErrors, User } from './components/interfaces/LoginProps';
+import { UserData } from './components/interfaces/HomeProps';
+
 // Styles Imports
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme'
@@ -83,12 +85,19 @@ function App() {
 
   if (isLogged === true) {
     if (isAdmin === true) {
+      if (userData.id === 0) {
+        const userDataM = JSON.parse(localStorage.getItem('userData')!);
+        setUserData(userDataM);
+      }
       return (
         <ThemeProvider theme={theme}>
           <>
             <Routes>
               <Route path="/" element={<Navigate to="/Home" replace />} />
-              <Route path="/Home" element={<Home />} />
+              <Route path="/Home" element={<Home
+                userData={userData}
+                setUserData={setUserData}
+              />} />
               <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
               <Route path="/resource_not_found" element={<Error404 />} />
             </Routes>

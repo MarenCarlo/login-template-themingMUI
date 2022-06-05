@@ -41,9 +41,6 @@ export const callApi = async (user: any, setUser: any, userData: any, setUserDat
             if (userIsAdmin === 'Romaguera-Crona') {
                 setAdmin(true);
                 setLogged(true);
-                localStorage.setItem('admin', JSON.stringify(true));
-                localStorage.setItem('logged', JSON.stringify(true));
-
                 /**
                  * SetUserData nos sirve para almacenar toda la data que recibimos
                  * del usuario que quiere ingresar al sistema.
@@ -71,10 +68,13 @@ export const callApi = async (user: any, setUser: any, userData: any, setUserDat
                         bs: resUser[0].company.bs,
                     }
                 })
-
                 setLoginErrors({
                     message: ''
                 });
+                console.log(userData);
+                localStorage.setItem('userData', JSON.stringify(resUser[0]));
+                localStorage.setItem('admin', JSON.stringify(true));
+                localStorage.setItem('logged', JSON.stringify(true));
             } else {
                 setLoginErrors({
                     message: 'Este usuario no es Administrador...'
