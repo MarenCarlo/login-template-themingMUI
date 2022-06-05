@@ -11,13 +11,19 @@ import Login from './components/Auth/Login';
 import Home from './components/Home/Home';
 import Error404 from './components/Errors/Error404';
 // Interfaces Imports
-import { LoginErrors, User, UserData } from './components/interfaces/LoginProps';
+import { LoginErrors, User } from './components/interfaces/LoginProps';
+import { UserData, Token } from './components/interfaces/HomeProps';
+
 // Styles Imports
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme'
+// import functions
 import { callApi } from './shared/enviarDatos';
 
 function App() {
+  const [token, setToken] = useState<Token>({
+    token: ''
+  })
   /**
    * State user es para el estado de los inputs del login
    * username y password
@@ -64,34 +70,54 @@ function App() {
    * State isLogged es el estado que se utiliza para validar si se muestra el login
    * o nuestras rutas protegidas
    */
-  const [isLogged, setLogged] = useState<boolean>(false);
+  const loggedM = JSON.parse(localStorage.getItem('logged')!);
+  const [isLogged, setLogged] = useState<boolean>(loggedM);
   /**
    * State isAdmin es el estado que se utiliza para validar si el usuario tiene el rol de
    * Administrador para validar si este puede ingresar al sistema
    */
-  const [isAdmin, setAdmin] = useState<boolean>(false);
+  const adminM = JSON.parse(localStorage.getItem('admin')!);
+  const [isAdmin, setAdmin] = useState<boolean>(adminM);
 
 
   useEffect(() => {
     if ((user.user !== '' && user.user !== undefined) || (user.password !== '' && user.password !== undefined)) {
-      callApi(user, setUser, userData, setUserData, loginErrors, setLoginErrors);
+      callApi(user, setUser, userData, setUserData, loginErrors, setLoginErrors, isLogged, setLogged, isAdmin, setAdmin);
     }
-  }, [user, loginErrors, userData]);
+  }, [user, loginErrors, userData, isLogged, isAdmin]);
 
   if (isLogged === true) {
     if (isAdmin === true) {
-      return (
-        <ThemeProvider theme={theme}>
-          <>
-            <Routes>
-              <Route path="/" element={<Navigate to="/Home" replace />} />
-              <Route path="/Home" element={<Home />} />
-              <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
-              <Route path="/resource_not_found" element={<Error404 />} />
-            </Routes>
-          </>
-        </ThemeProvider>
-      );
+      if (userData.id === 0) {
+        const userDataM = JSON.parse(localStorage.getItem('userData')!);
+        setUserData(userDataM);
+      }
+      if (userData.id > 0 && userData.username !== '') {
+        if (token !== null || token !== '') {
+          return (
+            <ThemeProvider theme={theme}>
+              <>
+                <Routes>
+                  <Route path="/" element={<Navigate to="/Home" replace />} />
+                  <Route path="/Home" element={<Home
+                    userData={userData}
+                    setUserData={setUserData}
+                    token={token}
+                    setToken={setToken}
+                  />} />
+                  <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
+                  <Route path="/resource_not_found" element={<Error404 />} />
+                </Routes>
+              </>
+            </ThemeProvider>
+          );
+        } else {
+          /**
+           * Acá ira función de cierre de sesión automatico si el token es igual a null
+           * o no coincide su Secret Key con la de la API
+           */
+        }
+      }
     }
   }
   return (

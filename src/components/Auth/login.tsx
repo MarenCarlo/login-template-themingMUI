@@ -9,7 +9,7 @@ import React from 'react';
 //import Types 
 import { LoginProps, User } from '../interfaces/LoginProps'
 
-const Login = ({ user, setUser, userData, setUserData, loginErrors, setLoginErrors }: LoginProps) => {
+const Login = ({ setUser, loginErrors }: LoginProps) => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
