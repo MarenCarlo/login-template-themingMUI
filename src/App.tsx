@@ -9,21 +9,26 @@ import {
 // Components Imports
 import Login from './components/Auth/Login';
 import Home from './components/Home/Home';
+import Home2 from './components/Home/Home2';
 import Error404 from './components/Errors/Error404';
 // Interfaces Imports
 import { LoginErrors, User } from './components/interfaces/LoginProps';
 import { UserData, Token } from './components/interfaces/HomeProps';
-// Styles Imports
+// MUI Components Imports
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme'
 // import functions
 import { callApi } from './shared/enviarDatos';
+import ProtectedRoutesNavigation from "./components/NavigationRoutes/ProtectedRoutesNavigation";
 
 
 export const UserDataContext = createContext(JSON.parse(localStorage.getItem('userData')!));
 
 function App() {
 
+  /**
+   * INICIA SECCION DE STATES
+   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [token, setToken] = useState<Token>({
     token: 'xDfsdsdfD434123454XD'
@@ -83,7 +88,9 @@ function App() {
    */
   const adminM = JSON.parse(localStorage.getItem('admin')!);
   const [isAdmin, setAdmin] = useState<boolean>(adminM);
-
+  /**
+   * FINALIZA SECCION DE STATES
+   */
 
   useEffect(() => {
     if ((user.user !== '' && user.user !== undefined) || (user.password !== '' && user.password !== undefined)) {
@@ -92,7 +99,9 @@ function App() {
 
   }, [user, loginErrors, userData, isLogged, isAdmin]);
 
-
+  /**
+   * INICIA SECCION DE VALIDACIONES AL INICIAR SESION
+   */
   if (isLogged === true) {
     if (isAdmin === true) {
       if (userData.id > 0 && userData.username !== '') {
@@ -101,9 +110,11 @@ function App() {
             <ThemeProvider theme={theme}>
               <>
                 <UserDataContext.Provider value={JSON.parse(localStorage.getItem('userData')!)}>
+                  <ProtectedRoutesNavigation />
                   <Routes>
                     <Route path="/" element={<Navigate to="/Home" replace />} />
                     <Route path="/Home" element={<Home />} />
+                    <Route path="/Home2" element={<Home2 />} />
                     <Route path="*" element={<Navigate to="/resource_not_found" replace />} />
                     <Route path="/resource_not_found" element={<Error404 />} />
                   </Routes>
@@ -151,6 +162,12 @@ function App() {
     localStorage.removeItem('admin');
     localStorage.removeItem('userData');
   }
+  /**
+   * FINALIZA SECCION DE VALIDACIONES AL INICIAR SESION
+   */
+  /**
+   * INICIA VISTAS QUE SE MUESTRAN SI NO SE HA INICIADO SESION
+   */
   return (
     <ThemeProvider theme={theme}>
       <>
@@ -172,6 +189,9 @@ function App() {
       </>
     </ThemeProvider>
   );
+  /**
+   * FINALIZA VISTAS QUE SE MUESTRAN AL NO HABER INICIADO SESION
+   */
 }
 
 export default App;
